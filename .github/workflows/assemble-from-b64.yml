@@ -1,0 +1,31 @@
+name: Assemble index.html from compressed payload
+on:
+  push:
+    paths:
+      - 'payload/**'
+      - '.github/workflows/assemble-from-b64.yml'
+  workflow_dispatch:
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode and gunzip into index.html
+        run: |
+          set -euo pipefail
+          cat payload/p*.txt | base64 -d | gunzip -c > index.html
+          wc -c index.html
+          sha256sum index.html
+          test "$(wc -c < index.html)" -eq 798990
+          test "$(sha256sum index.html | awk '{print $1}')" = "92500548159fbf7a18c9dbbf9b1c2693475face119093da411068865102193ff"
+      - name: Commit index.html
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then echo "unchanged"; exit 0; fi
+          git commit -m "Painel Censo Araci 2026 tema claro para apresentação"
+          git push
