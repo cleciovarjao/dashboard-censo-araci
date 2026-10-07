@@ -18,8 +18,8 @@ jobs:
           cat payload/p00.txt payload/p01.txt payload/p02.txt | base64 -d | gunzip -c > index.html
           wc -c index.html
           sha256sum index.html
-          test "$(wc -c < index.html)" -eq 41993
-          test "$(sha256sum index.html | awk '{print $1}')" = "e89e72ebca947a2a42ef666c259ce8212c06996e9a546d9639d6148ee123121e"
+          test "$(wc -c < index.html)" -eq 42309
+          test "$(sha256sum index.html | awk '{print $1}')" = "0c59968f1eed39e7d65d5e47b1325ec949687d705f305bec6e51fca456e7031c"
       - name: Commit index.html
         run: |
           set -euo pipefail
@@ -27,5 +27,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
           if git diff --cached --quiet; then echo "unchanged"; exit 0; fi
-          git commit -m "Painel lista ponderações: comum × ponderadas"
+          git commit -m "Painel lista ponderações agrupado por bloco"
           git push
