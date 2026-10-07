@@ -1,1 +1,303 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Araci — Comparativo de matrículas Fundeb 2025 × 2026</title>
+<style>
+:root {
+  --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#64748b;
+  --accent:#0284c7; --good:#059669; --bad:#dc2626; --border:#e2e8f0;
+  --warn:#d97706;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; font-family:"Segoe UI",system-ui,sans-serif;
+  background:linear-gradient(160deg,#f8fafc 0%,#eef2ff 50%,#f0f9ff 100%);
+  color:var(--text); min-height:100vh;
+}
+header {
+  padding:1.1rem 1.4rem; border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.95); position:sticky; top:0; z-index:10;
+  box-shadow:0 1px 8px rgba(15,23,42,.06);
+}
+header h1 { margin:0; font-size:clamp(1.05rem,2.8vw,1.45rem); }
+header p { margin:.3rem 0 0; color:var(--muted); font-size:.88rem; }
+main { max-width:1080px; margin:0 auto; padding:1rem 1.2rem 2.5rem; }
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:.75rem; margin:1rem 0; }
+.kpi {
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1rem;
+  box-shadow:0 2px 10px rgba(15,23,42,.05);
+}
+.kpi .label { color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; }
+.kpi .value { font-size:1.45rem; font-weight:700; margin-top:.2rem; font-variant-numeric:tabular-nums; }
+.kpi .sub { font-size:.8rem; color:var(--muted); margin-top:.15rem; }
+.kpi.bad .value { color:var(--bad); }
+.kpi.good .value { color:var(--good); }
+.callout {
+  background:linear-gradient(135deg,#fef3c7,#e0f2fe); border:1px solid #fcd34d;
+  border-radius:12px; padding:.9rem 1rem; margin-bottom:1rem; font-size:.92rem; line-height:1.45;
+}
+.card {
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1rem 1.1rem;
+  margin-bottom:1rem; box-shadow:0 2px 10px rgba(15,23,42,.04);
+}
+.card h2 { margin:0 0 .75rem; font-size:1rem; }
+.card h3 { margin:1rem 0 .5rem; font-size:.92rem; color:#334155; }
+table { width:100%; border-collapse:collapse; font-size:.84rem; }
+th, td { padding:.45rem .5rem; text-align:left; border-bottom:1px solid var(--border); }
+th { color:var(--muted); font-weight:600; background:#f8fafc; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+tr:hover td { background:#f1f5f9; }
+tr.total td { background:#f1f5f9; font-weight:700; border-top:2px solid #cbd5e1; }
+.pos { color:var(--good); font-weight:600; }
+.neg { color:var(--bad); font-weight:600; }
+.notes {
+  background:#fff; border:1px solid var(--border); border-radius:14px;
+  padding:1.1rem 1.2rem; margin-top:.5rem; box-shadow:0 2px 10px rgba(15,23,42,.04);
+}
+.notes h2 { margin:0 0 .8rem; font-size:1.05rem; }
+.notes ol { margin:0; padding-left:1.2rem; }
+.notes li { margin-bottom:.7rem; line-height:1.45; font-size:.9rem; color:#334155; }
+.notes li strong { color:var(--text); }
+.ex {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.7rem; margin-top:.5rem;
+}
+.ex .box {
+  border:1px solid var(--border); border-radius:10px; padding:.75rem .85rem; background:#f8fafc;
+  font-size:.85rem; line-height:1.4;
+}
+.ex .box b { display:block; margin-bottom:.25rem; color:var(--accent); }
+.tag { display:inline-block; padding:.1rem .4rem; border-radius:6px; font-size:.72rem; background:#e2e8f0; }
+footer { text-align:center; color:var(--muted); font-size:.75rem; padding:1.2rem; }
+@media print {
+  header { position:static; box-shadow:none; }
+  body { background:#fff; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Araci — Comparativo de matrículas Fundeb 2025 × 2026</h1>
+  <p>Rede municipal · Carga Portaria (base do ano) × Censo/painel 2026 · Cabeça e ponderado VAAF (NT Conjunta 12/2025)</p>
+</header>
+<main>
+  <div class="callout">
+    <strong>Leitura central:</strong> a rede perdeu <strong>−1.847</strong> em cabeça
+    (15.754 → 13.907). Em aluno ponderado VAAF o líquido fica cerca de <strong>−1.780</strong>.
+    Quase todo o buraco é <strong>EJA comum</strong> — sobretudo no <strong>campo (40b)</strong>.
+    Creche, pré, público EE e AEE <em>ganharam</em>, mas <strong>não compensaram</strong> a perda da EJA.
+  </div>
+
+  <div class="kpis">
+    <div class="kpi bad">
+      <div class="label">Cabeça total</div>
+      <div class="value">−1.847</div>
+      <div class="sub">15.754 → 13.907 (−11,7%) · portaria c/ AEE 13.906</div>
+    </div>
+    <div class="kpi bad">
+      <div class="label">Ponderado VAAF (líq.)</div>
+      <div class="value">≈ −1.780</div>
+      <div class="sub">após ganhos de creche/pré/EE/AEE</div>
+    </div>
+    <div class="kpi bad">
+      <div class="label">EJA comum</div>
+      <div class="value">−1.793</div>
+      <div class="sub">−1.932,5 ponderadas</div>
+    </div>
+    <div class="kpi good">
+      <div class="label">Compensatório</div>
+      <div class="value">+117</div>
+      <div class="sub">creche+pré+EE+AEE · ~+305 pond.</div>
+    </div>
+    <div class="kpi good">
+      <div class="label">AEE</div>
+      <div class="value">+30</div>
+      <div class="sub">502 → 532 · +42 pond.</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Campo × urbana</div>
+      <div class="value" style="font-size:1.15rem">−1.107 / −740</div>
+      <div class="sub">campo caiu mais em volume</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>1. Perdas e ganhos por etapa e modalidade (cabeça)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Etapa</th><th>Modalidade</th>
+          <th class="num">2025</th><th class="num">2026</th>
+          <th class="num">Δ</th><th class="num">%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Creche</td><td>Comum</td><td class="num">1.232</td><td class="num">1.267</td><td class="num pos">+35</td><td class="num">+2,8%</td></tr>
+        <tr><td>Creche</td><td>Ed. especial</td><td class="num">64</td><td class="num">75</td><td class="num pos">+11</td><td class="num">+17,2%</td></tr>
+        <tr><td>Pré-escola</td><td>Comum</td><td class="num">1.174</td><td class="num">1.186</td><td class="num pos">+12</td><td class="num">+1,0%</td></tr>
+        <tr><td>Pré-escola</td><td>Ed. especial</td><td class="num">84</td><td class="num">99</td><td class="num pos">+15</td><td class="num">+17,9%</td></tr>
+        <tr><td>Ens. fundamental</td><td>Comum</td><td class="num">6.104</td><td class="num">5.948</td><td class="num neg">−156</td><td class="num">−2,6%</td></tr>
+        <tr><td>Ens. fundamental</td><td>Ed. especial</td><td class="num">390</td><td class="num">404</td><td class="num pos">+14</td><td class="num">+3,6%</td></tr>
+        <tr><td>EJA fundamental</td><td>Comum</td><td class="num">6.138</td><td class="num">4.345</td><td class="num neg">−1.793</td><td class="num">−29,2%</td></tr>
+        <tr><td>EJA fundamental</td><td>Ed. especial</td><td class="num">66</td><td class="num">51</td><td class="num neg">−15</td><td class="num">−22,7%</td></tr>
+        <tr><td>AEE</td><td>Acréscimo</td><td class="num">502</td><td class="num">532</td><td class="num pos">+30</td><td class="num">+6,0%</td></tr>
+        <tr class="total"><td colspan="2">Total</td><td class="num">15.754</td><td class="num">13.907</td><td class="num neg">−1.847</td><td class="num">−11,7%</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:.6rem 0 0;font-size:.85rem;color:var(--muted)">
+      <strong>Nota:</strong> ganhos em creche, pré, EE e AEE; o buraco está na <strong>EJA comum (−1.793)</strong> e, em menor escala, no EF comum (−156). Bilíngue zerado nos dois anos.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>2. Ensino fundamental — anos iniciais × finais × integral</h2>
+    <table>
+      <thead>
+        <tr><th>Recorte</th><th class="num">2025</th><th class="num">2026</th><th class="num">Δ cabeça</th><th class="num">Δ ponderado</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Anos iniciais parcial (22*)</td><td class="num">1.203</td><td class="num">1.404</td><td class="num pos">+201</td><td class="num pos">+207,6</td></tr>
+        <tr><td>Anos finais parcial (23*)</td><td class="num">2.361</td><td class="num">1.800</td><td class="num neg">−561</td><td class="num neg">−668,7</td></tr>
+        <tr><td>EF integral comum (20*)</td><td class="num">2.540</td><td class="num">2.744</td><td class="num pos">+204</td><td class="num">—</td></tr>
+        <tr><td>EF integral EE (25*)</td><td class="num">319</td><td class="num">218</td><td class="num neg">−101</td><td class="num">—</td></tr>
+        <tr><td>EF parcial EE (29*)</td><td class="num">71</td><td class="num">186</td><td class="num pos">+115</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:.6rem 0 0;font-size:.85rem;color:var(--muted)">
+      No Fundeb o <strong>integral EF não separa</strong> anos iniciais/finais. A perda do EF comum (−156) veio dos <strong>anos finais</strong>; os iniciais <strong>ganharam</strong>.
+      O −94 do 25b quase se anula com o +90 do 29b (troca de jornada EE).
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>3. Campo × sede (urbana)</h2>
+    <table>
+      <thead>
+        <tr><th>Localização</th><th class="num">2025</th><th class="num">2026</th><th class="num">Δ</th><th class="num">%</th><th class="num">Δ pond.</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Campo</td><td class="num">9.535</td><td class="num">8.428</td><td class="num neg">−1.107</td><td class="num">−11,6%</td><td class="num neg">−1.119,6</td></tr>
+        <tr><td>Urbana</td><td class="num">6.219</td><td class="num">5.479</td><td class="num neg">−740</td><td class="num">−11,9%</td><td class="num neg">−661,3</td></tr>
+      </tbody>
+    </table>
+    <h3>Campo por etapa (principais)</h3>
+    <table>
+      <thead><tr><th>Etapa (campo)</th><th class="num">2025</th><th class="num">2026</th><th class="num">Δ</th></tr></thead>
+      <tbody>
+        <tr><td>EJA</td><td class="num">4.287</td><td class="num">3.355</td><td class="num neg">−932</td></tr>
+        <tr><td>EF anos finais</td><td class="num">1.576</td><td class="num">1.263</td><td class="num neg">−313</td></tr>
+        <tr><td>EF anos iniciais</td><td class="num">1.203</td><td class="num">1.247</td><td class="num pos">+44</td></tr>
+        <tr><td>Creche</td><td class="num">655</td><td class="num">687</td><td class="num pos">+32</td></tr>
+        <tr><td>Pré-escola</td><td class="num">737</td><td class="num">735</td><td class="num">−2</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:.6rem 0 0;font-size:.85rem;color:var(--muted)">
+      Só o <strong>40b (−930 × 1,15 = −1.069,5 ponderadas)</strong> já supera a perda urbana inteira em cabeça (−740).
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>4. AEE no comparativo</h2>
+    <table>
+      <thead>
+        <tr><th>Código</th><th>Perfil</th><th class="num">2025</th><th class="num">2026</th><th class="num">Δ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>90a</td><td>AEE — educação infantil</td><td class="num">136</td><td class="num">162</td><td class="num pos">+26</td></tr>
+        <tr><td>91a</td><td>AEE — fundamental / EJA</td><td class="num">366</td><td class="num">369</td><td class="num pos">+3</td></tr>
+        <tr><td>93a</td><td>AEE — etapas diferentes</td><td class="num">0</td><td class="num">1</td><td class="num pos">+1</td></tr>
+        <tr class="total"><td colspan="2">Total AEE</td><td class="num">502</td><td class="num">532</td><td class="num pos">+30</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:.6rem 0 0;font-size:.85rem;color:var(--muted)">
+      Ponderadas AEE: <strong>702,8 → 744,8 (+42)</strong>. Cobertura: 532 AEE para 629 de escolarização EE (~85%).
+      Quase todo o ganho veio do infantil (90a), alinhado à alta de creche/pré EE.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>5. Exemplos de ponderação EE + AEE (para apresentação)</h2>
+    <div class="ex">
+      <div class="box">
+        <b>Urbana · EF parcial</b>
+        Comum = <strong>1,00</strong><br/>
+        EE = <strong>1,40</strong><br/>
+        EE + AEE = <strong>1,40 + 1,40 = 2,80</strong>
+      </div>
+      <div class="box">
+        <b>Campo · EF parcial</b>
+        EE = <strong>1,61</strong><br/>
+        EE + AEE = <strong>1,61 + 1,40 = 3,01</strong><br/>
+        <span class="tag">rede majoritariamente campo</span>
+      </div>
+      <div class="box">
+        <b>Integral (urbana ou campo)</b>
+        Fator EE ≈ igual ao comum<br/>
+        Extra = só o <strong>AEE (+1,40)</strong><br/>
+        AEE sem multiplicador de campo
+      </div>
+    </div>
+    <p style="margin:.6rem 0 0;font-size:.85rem;color:var(--muted)">
+      <strong>Nota:</strong> AEE é <em>acréscimo</em> (+1,40), não substitui matrícula de escolarização. EE/AEE amorteceram o líquido, mas <strong>não compensaram</strong> a perda da EJA.
+    </p>
+  </div>
+
+  <div class="notes">
+    <h2>Notas explicativas</h2>
+    <ol>
+      <li>
+        <strong>Fontes do comparativo.</strong> “2025” = matrículas da
+        <em>Pré Visualizar Carga Portaria</em> (municipal Araci, IBGE 2902104), base usada no Fundeb do ciclo.
+        “2026” = Censo/painel da rede municipal com os 115 códigos da NT Conjunta 12/2025 (lista de ponderações VAAF). O painel fecha em <strong>13.907</strong>; a portaria com AEE em <strong>13.906</strong> — diferença de +1 no código <strong>93a</strong> (AEE no Núcleo sem etapa de escolarização municipal — possível aluno de outra rede; na apresentação use AEE oficial <strong>531</strong> da portaria).
+      </li>
+      <li>
+        <strong>Cabeça × ponderada.</strong> Cabeça = 1 matrícula contada. Ponderada = cabeça × fator VAAF do código.
+        A perda de −1.847 cabeças vira cerca de −1.780 líquidos em aluno ponderado, porque os ganhos em creche/pré/EE/AEE
+        amortecem um pouco o fator médio, mas não cobrem a EJA.
+      </li>
+      <li>
+        <strong>O buraco é EJA comum, não educação especial.</strong>
+        EJA comum −1.793 (−1.932,5 ponderadas). Público EE na escolarização subiu (604 → 629).
+        A queda residual da EJA especial (−15) é irrelevante frente aos −1.793 do EJA comum.
+      </li>
+      <li>
+        <strong>Campo dói mais no VAAF.</strong> Araci é majoritariamente campo. O código <strong>40b</strong>
+        (EJA fundamental campo) perdeu 930 cabeças × fator 1,15 = <strong>−1.069,5 ponderadas</strong> —
+        sozinho, mais do que toda a perda urbana em cabeça (−740).
+      </li>
+      <li>
+        <strong>Anos iniciais não caíram.</strong> Códigos 22* (anos iniciais parcial) ganharam +201.
+        Quem caiu no EF foram os <strong>anos finais parcial (23*)</strong>, −561. O integral EF comum (20*) também subiu (+204).
+      </li>
+      <li>
+        <strong>Creche, pré, EE e AEE não compensaram.</strong> Juntos somam cerca de +117 cabeça e ~+305 ponderadas.
+        A EJA comum sozinha tirou −1.793 / −1.932,5. Ou seja: amorteceram, mas o líquido continua fortemente negativo.
+      </li>
+      <li>
+        <strong>AEE é acréscimo, não tapa escolarização.</strong> Fator 1,40 soma em cima de quem já tem matrícula de escolarização.
+        O estoque de 532 AEE vale ~745 ponderadas no total; só a <em>perda</em> da EJA comum já come 1.932.
+        Fator alto em poucos alunos não cobre fator mais baixo em muitos.
+      </li>
+      <li>
+        <strong>Dois vínculos no Fundeb (EE).</strong> (1) Escolarização no código EE — no parcial sobe ao piso 1,40 (campo 1,61);
+        no integral o fator costuma ser igual ao comum. (2) AEE (+1,40) se houver atendimento.
+        Ex.: aluno EE parcial campo com AEE = 1,61 + 1,40 = <strong>3,01</strong> ponderadas.
+      </li>
+      <li>
+        <strong>Troca de jornada EE no fundamental.</strong> O −101 do integral EE (25*) e o +115 do parcial EE (29*)
+        sugerem remanejamento de jornada, não perda líquida do público EE (escolarização EE +14 no total do EF).
+      </li>
+      <li>
+        <strong>Uso na apresentação.</strong> Portaria/fechamento oficial para cabeça por etapa;
+        este painel e a lista de ponderações para mostrar comum → ponderada e o diagnóstico 2025×2026.
+        Bilíngue de surdos zerado nos dois anos na rede municipal.
+      </li>
+    </ol>
+  </div>
+</main>
+<footer>
+  Escritório / rede municipal de Araci-BA · Comparativo Fundeb VAAF · Gerado para apresentação · NT 12/2025 · Res. CIF 5/2024
+</footer>
+</body>
+</html>
