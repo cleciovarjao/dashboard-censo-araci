@@ -1,0 +1,126 @@
+mult":"nenhum","aee":false,"fator":1.4,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"67b","perfil":"Educação Bilíngue de Surdos - EJA Fundamental Campo","bloco":"Educação bilíngue de surdos — tempo parcial","etapa":"EJA FUNDAMENTAL","jornada":"parcial","tipo":"bilíngue de surdos","mult":"campo","aee":false,"fator":1.61,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"67c","perfil":"Educação Bilíngue de Surdos - EJA Fundamental Indígena","bloco":"Educação bilíngue de surdos — tempo parcial","etapa":"EJA FUNDAMENTAL","jornada":"parcial","tipo":"bilíngue de surdos","mult":"indigena","aee":false,"fator":1.96,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"67d","perfil":"Educação Bilíngue de Surdos - EJA Fundamental Quilombola","bloco":"Educação bilíngue de surdos — tempo parcial","etapa":"EJA FUNDAMENTAL","jornada":"parcial","tipo":"bilíngue de surdos","mult":"quilombola","aee":false,"fator":1.96,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"82a","perfil":"Educação Bilíngue de Surdos - EJA Fundamental Alternância","bloco":"Educação bilíngue de surdos — tempo parcial","etapa":"EJA FUNDAMENTAL","jornada":"parcial","tipo":"bilíngue de surdos","mult":"nenhum","aee":false,"fator":1.4,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"82b","perfil":"Educação Bilíngue de Surdos - EJA Fundamental Campo Alternância","bloco":"Educação bilíngue de surdos — tempo parcial","etapa":"EJA FUNDAMENTAL","jornada":"parcial","tipo":"bilíngue de surdos","mult":"campo","aee":false,"fator":1.61,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"82c","perfil":"Educação Bilíngue de Surdos - EJA Fundamental Indígena Alternância","bloco":"Educação bilíngue de surdos — tempo parcial","etapa":"EJA FUNDAMENTAL","jornada":"parcial","tipo":"bilíngue de surdos","mult":"indigena","aee":false,"fator":1.96,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"82d","perfil":"Educação Bilíngue de Surdos - EJA Fundamental Quilombola Alternância","bloco":"Educação bilíngue de surdos — tempo parcial","etapa":"EJA FUNDAMENTAL","jornada":"parcial","tipo":"bilíngue de surdos","mult":"quilombola","aee":false,"fator":1.96,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"90a","perfil":"AEE — educação infantil (acréscimo)","bloco":"AEE (acréscimo)","etapa":"AEE","jornada":"—","tipo":"acréscimo AEE","mult":"nenhum","aee":true,"fator":1.4,"cabeca":162,"ponderado":226.8,"ganho":64.8},{"codigo":"91a","perfil":"AEE — ensino fundamental / EJA fundamental (acréscimo)","bloco":"AEE (acréscimo)","etapa":"AEE","jornada":"—","tipo":"acréscimo AEE","mult":"nenhum","aee":true,"fator":1.4,"cabeca":369,"ponderado":516.6,"ganho":147.6},{"codigo":"93a","perfil":"AEE — etapas diferentes (acréscimo)","bloco":"AEE (acréscimo)","etapa":"AEE","jornada":"—","tipo":"acréscimo AEE","mult":"nenhum","aee":true,"fator":1.4,"cabeca":1,"ponderado":1.4,"ganho":0.4}]};
+let chart;
+
+function fmt(n,d=2){
+  return Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+}
+function fmtInt(n){
+  return Number(n).toLocaleString('pt-BR',{maximumFractionDigits:0});
+}
+
+function filtered(){
+  const q = (document.getElementById('q').value||'').trim().toLowerCase();
+  const b = document.getElementById('filtroBloco').value;
+  const z = document.getElementById('filtroZero').value;
+  return DATA.lista.filter(r => {
+    if (z === 'com' && r.cabeca <= 0) return false;
+    if (b && r.bloco !== b) return false;
+    if (q) {
+      const blob = (r.codigo+' '+r.perfil+' '+r.bloco+' '+r.etapa+' '+r.tipo).toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function groupByBloco(rows){
+  const order = [];
+  const map = new Map();
+  for (const r of rows) {
+    if (!map.has(r.bloco)) { map.set(r.bloco, []); order.push(r.bloco); }
+    map.get(r.bloco).push(r);
+  }
+  return order.map(b => ({ bloco:b, rows: map.get(b) }));
+}
+
+function render(){
+  const rows = filtered();
+  const cab = rows.reduce((s,r)=>s+r.cabeca,0);
+  const pond = rows.reduce((s,r)=>s+r.ponderado,0);
+  const ganho = pond - cab;
+  const pct = cab ? (100*ganho/cab) : 0;
+  document.getElementById('kpis').innerHTML = `
+    <div class="kpi"><div class="label">Matrículas comum</div><div class="value" style="color:var(--accent)">${fmtInt(cab)}</div>
+      <div class="sub">Por cabeça (sem fator)</div></div>
+    <div class="kpi"><div class="label">Matrículas ponderadas</div><div class="value" style="color:var(--accent2)">${fmt(pond)}</div>
+      <div class="sub">Soma cabeça × fator VAAF</div></div>
+    <div class="kpi"><div class="label">Ganho</div><div class="value" style="color:var(--good)">+${fmt(ganho)}</div>
+      <div class="sub">${fmt(pct,1)}% sobre a comum</div></div>
+    <div class="kpi"><div class="label">Códigos na vista</div><div class="value">${fmtInt(rows.length)}</div>
+      <div class="sub">Lista tem ${DATA.total_codigos_lista} códigos</div></div>`;
+  document.getElementById('callout').innerHTML =
+    `<strong>Leitura:</strong> coluna-mestra = lista de ponderações. Em cada linha: <strong>código</strong>, <strong>fator</strong>, <strong>matrículas comum</strong> (cabeça) e <strong>ponderadas</strong> (cabeça × fator). Agrupado pelos blocos da lista explicativa.`;
+
+  const groups = groupByBloco(rows);
+  document.getElementById('listaInfo').textContent =
+    `· ${groups.length} blocos · ${fmtInt(rows.length)} códigos · ${fmtInt(cab)} comum · ${fmt(pond)} ponderadas`;
+
+  const tb = document.getElementById('tbody');
+  let html = '';
+  for (const g of groups) {
+    const gCab = g.rows.reduce((s,r)=>s+r.cabeca,0);
+    const gPond = g.rows.reduce((s,r)=>s+r.ponderado,0);
+    html += `<tr class="bloco-row"><td colspan="6">${g.bloco} · ${fmtInt(gCab)} comum · ${fmt(gPond)} ponderadas</td></tr>`;
+    const sorted = [...g.rows].sort((a,b)=> a.codigo.localeCompare(b.codigo, undefined, {numeric:true}));
+    for (const r of sorted) {
+      html += `<tr class="${r.cabeca? '':'zero'}">
+        <td><strong>${r.codigo}</strong></td>
+        <td>${r.perfil}</td>
+        <td class="num">${fmt(r.fator,4)}</td>
+        <td class="num"><strong>${fmtInt(r.cabeca)}</strong></td>
+        <td class="num"><strong>${fmt(r.ponderado)}</strong></td>
+        <td class="num" style="color:var(--good)">${r.cabeca?('+'+fmt(r.ganho)):'—'}</td>
+      </tr>`;
+    }
+    html += `<tr class="subtotal">
+      <td colspan="3">Subtotal do bloco</td>
+      <td class="num">${fmtInt(gCab)}</td>
+      <td class="num">${fmt(gPond)}</td>
+      <td class="num" style="color:var(--good)">+${fmt(gPond-gCab)}</td>
+    </tr>`;
+  }
+  tb.innerHTML = html;
+
+  // chart: one bar pair per bloco
+  const labels = groups.map(g => g.bloco.replace(' — ',' · ').replace('tempo ',''));
+  const short = labels.map(l => l.length>28 ? l.slice(0,26)+'…' : l);
+  if (chart) chart.destroy();
+  chart = new Chart(document.getElementById('chart'), {
+    type:'bar',
+    data: {
+      labels: short,
+      datasets: [
+        { label:'Matrículas comum', data: groups.map(g=>g.rows.reduce((s,r)=>s+r.cabeca,0)), backgroundColor:'#0ea5e9cc', borderRadius:4 },
+        { label:'Matrículas ponderadas', data: groups.map(g=>g.rows.reduce((s,r)=>s+r.ponderado,0)), backgroundColor:'#8b5cf6cc', borderRadius:4 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: { legend: { labels: { color:'#475569' } },
+        tooltip: { callbacks: { title: (items) => labels[items[0].dataIndex] } } },
+      scales: {
+        x: { ticks: { color:'#64748b', maxRotation:45, font:{size:10} }, grid: { color:'#e2e8f0' } },
+        y: { ticks: { color:'#64748b' }, grid: { color:'#e2e8f0' } },
+      }
+    }
+  });
+}
+
+function init(){
+  const blocos = [...new Set(DATA.lista.map(r=>r.bloco))];
+  const sb = document.getElementById('filtroBloco');
+  blocos.forEach(e => { const o=document.createElement('option'); o.value=e; o.textContent=e; sb.appendChild(o); });
+  ['q','filtroBloco','filtroZero'].forEach(id =>
+    document.getElementById(id).addEventListener(id==='q'?'input':'change', render));
+  document.getElementById('btnReset').addEventListener('click', () => {
+    document.getElementById('q').value='';
+    document.getElementById('filtroBloco').value='';
+    document.getElementById('filtroZero').value='com';
+    render();
+  });
+  render();
+}
+init();
+</script>
+</body>
+</html>
