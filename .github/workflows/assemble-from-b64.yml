@@ -15,7 +15,7 @@ jobs:
       - name: Decode and gunzip into index.html
         run: |
           set -euo pipefail
-          cat payload/p*.txt | base64 -d | gunzip -c > index.html
+          cat payload/p00.txt payload/p01.txt payload/p02.txt | base64 -d | gunzip -c > index.html
           wc -c index.html
           sha256sum index.html
           test "$(wc -c < index.html)" -eq 41993
