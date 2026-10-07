@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Araci 2026 — Lista de ponderações Fundeb (VAAF)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#64748b;
+  --accent:#0284c7; --accent2:#7c3aed; --good:#059669; --border:#e2e8f0;
+  --bloco:#1e293b;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; font-family:"Segoe UI",system-ui,sans-serif;
+  background:linear-gradient(160deg,#f8fafc 0%,#eef2ff 50%,#f0f9ff 100%);
+  color:var(--text); min-height:100vh;
+}
+header {
+  padding:1.1rem 1.4rem; border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.95); position:sticky; top:0; z-index:10;
+  box-shadow:0 1px 8px rgba(15,23,42,.06);
+}
+header h1 { margin:0; font-size:clamp(1.05rem,2.8vw,1.45rem); }
+header p { margin:.3rem 0 0; color:var(--muted); font-size:.88rem; }
+main { max-width:1100px; margin:0 auto; padding:1rem 1.2rem 2.5rem; }
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:.75rem; margin:1rem 0; }
+.kpi {
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1rem;
+  box-shadow:0 2px 10px rgba(15,23,42,.05);
+}
+.kpi .label { color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; }
+.kpi .value { font-size:1.5rem; font-weight:700; margin-top:.2rem; font-variant-numeric:tabular-nums; }
+.kpi .sub { font-size:.8rem; color:var(--muted); margin-top:.15rem; }
+.callout {
+  background:linear-gradient(135deg,#ecfdf5,#e0f2fe); border:1px solid #86efac;
+  border-radius:12px; padding:.9rem 1rem; margin-bottom:1rem; font-size:.92rem;
+}
+.filters { display:flex; flex-wrap:wrap; gap:.7rem; margin-bottom:1rem; align-items:end; }
+.filters label { font-size:.78rem; color:var(--muted); display:flex; flex-direction:column; gap:.25rem; }
+.filters select, .filters input {
+  background:#fff; border:1px solid var(--border); border-radius:8px; padding:.45rem .65rem; min-width:140px; color:var(--text);
+}
+.filters button {
+  background:#0f172a; color:#fff; border:0; border-radius:8px; padding:.5rem .9rem; cursor:pointer;
+}
+.card {
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1rem;
+  margin-bottom:1rem; box-shadow:0 2px 10px rgba(15,23,42,.04);
+}
+.card h2 { margin:0 0 .75rem; font-size:1rem; }
+.chart-wrap { position:relative; height:320px; }
+.table-scroll { max-height:640px; overflow:auto; }
+table { width:100%; border-collapse:collapse; font-size:.84rem; }
+th, td { padding:.42rem .5rem; text-align:left; border-bottom:1px solid var(--border); }
+th { color:var(--muted); font-weight:600; position:sticky; top:0; background:#fff; z-index:1; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+tr:hover td { background:#f1f5f9; }
+tr.zero td { color:#94a3b8; }
+tr.bloco-row td {
+  background:#0f172a; color:#f8fafc; font-weight:600; font-size:.82rem;
+  padding:.55rem .5rem; border-bottom:0;
+}
+tr.subtotal td {
+  background:#f1f5f9; font-weight:600; border-top:1px solid #cbd5e1;
+}
+.tag { display:inline-block; padding:.12rem .4rem; border-radius:6px; font-size:.72rem; background:#e2e8f0; color:#334155; }
+footer { text-align:center; color:var(--muted); font-size:.75rem; padding:1rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Araci 2026 — Lista de ponderações Fundeb (VAAF)</h1>
+  <p>Rede municipal · NT Conjunta 12/2025 · Res. CIF 5/2024 · Matrículas comum (cabeça) × ponderadas (cabeça × fator)</p>
+</header>
+<main>
+  <div class="kpis" id="kpis"></div>
+  <div class="callout" id="callout"></div>
+  <div class="filters">
+    <label>Buscar código/perfil<input id="q" type="search" placeholder="ex.: 29b, creche, especial"/></label>
+    <label>Bloco<select id="filtroBloco"><option value="">Todos os blocos</option></select></label>
+    <label>Mostrar<select id="filtroZero"><option value="com">Só com matrícula</option><option value="todos">Toda a lista (115)</option></select></label>
+    <label>&nbsp;<button id="btnReset">Limpar</button></label>
+  </div>
+  <div class="card">
+    <h2>Totais por bloco da lista</h2>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Lista de ponderações <span id="listaInfo" style="font-weight:400;color:var(--muted);font-size:.85rem"></span></h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Perfil</th>
+            <th class="num">Fator VAAF</th>
+            <th class="num">Matrículas comum</th>
+            <th class="num">Matrículas ponderadas</th>
+            <th class="num">Ganho</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<footer>Fonte: lista de 115 ponderações da rede municipal · dados do Censo Araci (excluso privada) · agrupado pelos blocos da lista explicativa</footer>
+<script>
+const DATA = {"fonte":"Lista-explicativa-ponderacoes-rede-municipal.xlsx — NT Conjunta 12/2025; Resolução CIF nº 5/2024 (mantida 2026/2027)","total_codigos_lista":115,"codigos_com_matricula":29,"kpis":{"matriculas_comum":13907,"matriculas_ponderadas":18455.36,"ganho":4548.36,"ganho_pct":32.71},"lista":[{"codigo":"01a","perfil":"Creche Integral Pública","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"comum","mult":"nenhum","aee":false,"fator":1.55,"cabeca":596,"ponderado":923.8,"ganho":327.8},{"codigo":"01b","perfil":"Creche Integral Pública Campo","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"comum","mult":"campo","aee":false,"fator":1.7825,"cabeca":411,"ponderado":732.6075,"ganho":321.6075},{"codigo":"01c","perfil":"Creche Integral Pública Indígena","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"comum","mult":"indigena","aee":false,"fator":2.17,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"01d","perfil":"Creche Integral Pública Quilombola","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"comum","mult":"quilombola","aee":false,"fator":2.17,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"05a","perfil":"Creche Integral Pública Especial","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"educação especial","mult":"nenhum","aee":false,"fator":1.55,"cabeca":59,"ponderado":91.45,"ganho":32.45},{"codigo":"05b","perfil":"Creche Integral Pública Campo Especial","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"educação especial","mult":"campo","aee":false,"fator":1.7825,"cabeca":11,"ponderado":19.6075,"ganho":8.6075},{"codigo":"05c","perfil":"Creche Integral Pública Indígena Especial","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"educação especial","mult":"indigena","aee":false,"fator":2.17,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"05d","perfil":"Creche Integral Pública Quilombola Especial","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"educação especial","mult":"quilombola","aee":false,"fator":2.17,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"06a","perfil":"Creche Integral Pública Bilíngue de Surdos","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"bilíngue de surdos","mult":"nenhum","aee":false,"fator":1.55,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"06b","perfil":"Creche Integral Pública Campo Bilíngue de Surdos","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"bilíngue de surdos","mult":"campo","aee":false,"fator":1.7825,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"06c","perfil":"Creche Integral Pública Indígena Bilíngue de Surdos","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"bilíngue de surdos","mult":"indigena","aee":false,"fator":2.17,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo":"06d","perfil":"Creche Integral Pública Quilombola Bilíngue de Surdos","bloco":"Creche — tempo integral","etapa":"CRECHE","jornada":"integral","tipo":"bilíngue de surdos","mult":"quilombola","aee":false,"fator":2.17,"cabeca":0,"ponderado":0.0,"ganho":0.0},{"codigo"
